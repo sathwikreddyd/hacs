@@ -1,0 +1,4 @@
+ins1:SER
+ins1:SERA
+stu1:SER
+stu1:SERB

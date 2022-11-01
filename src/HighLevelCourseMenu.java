@@ -1,5 +1,7 @@
 package hacs;
 
+import java.awt.*;
+
 /**
  * Title:        HACS
  * Description:
@@ -8,10 +10,6 @@ package hacs;
  * @author Zhang ji Zhu Wei
  * @version 1.0
  */
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
 public class HighLevelCourseMenu extends CourseMenu {
 
 	/*
@@ -27,15 +25,12 @@ public class HighLevelCourseMenu extends CourseMenu {
 		ShowViewButtons();
 		ShowRadios();
 		ShowComboxes();
-		show();
+		this.setVisible(true);
 	}
 
 	void ShowAddButtons() {
-		AssignmentAddButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AssignmentAddButton_actionPerformed(e);
-			}
-		});
+		AssignmentAddButton.addActionListener(
+				this::AssignmentAddButton_actionPerformed);
 		AssignmentAddButton.setText("Add");
 		AssignmentAddButton.setBounds(new Rectangle(389, 54, 79, 29));
 		OptionAddButton.setText("Add");
@@ -64,11 +59,8 @@ public class HighLevelCourseMenu extends CourseMenu {
 	void ShowViewButtons() {
 		AssignmentViewButton.setText("View");
 		AssignmentViewButton.setBounds(new Rectangle(290, 54, 79, 29));
-		AssignmentViewButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AssignmentViewButton_actionPerformed(e);
-			}
-		});
+		AssignmentViewButton.addActionListener(
+				this::AssignmentViewButton_actionPerformed);
 		OptionViewButton.setText("View");
 		OptionViewButton.setBounds(new Rectangle(290, 124, 79, 29));
 		this.getContentPane().add(AssignmentViewButton, null);

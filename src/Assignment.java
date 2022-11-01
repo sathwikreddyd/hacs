@@ -1,5 +1,8 @@
 package hacs;
 
+import java.util.*;
+import java.text.DateFormat;
+
 /**
  * Title:        HACS
  * Description:  CSE870 Homework 3:  Implementing Design Patterns
@@ -9,13 +12,9 @@ package hacs;
  * @version 1.0
  */
 
-import java.util.*;
-import java.text.DateFormat;
-
 public class Assignment {
 
   protected String AssName;
-  protected String strAssignmentFilename;
   protected Date DueDate=new Date();
   protected String AssSpec;
   protected SolutionList theSolutionList=new SolutionList();
@@ -37,17 +36,11 @@ public class Assignment {
   public boolean IsOverDue(){
     Date today;
     today = new Date();
-    if (today.after(this.DueDate)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return today.after(this.DueDate);
   }
 
   public Solution AddSolution(){
-    Solution mySolution = new Solution();
-    return mySolution;
+    return new Solution();
   }
 
   ////add the theSolution to the Solutionlist
@@ -76,8 +69,7 @@ public class Assignment {
 
   public SolutionIterator GetSolutionIterator()
   {
-    SolutionIterator theSolutionIterator=new SolutionIterator(theSolutionList);
-    return theSolutionIterator;
+    return new SolutionIterator(theSolutionList);
   }
 
   public String toString()

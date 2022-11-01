@@ -10,7 +10,7 @@ import java.io.*;
  * @author mjfindler
  * @version 2.0
  * 
- *          Update to Jave 8
+ *          Update to Java 8
  */
 
 public class Facade {
@@ -26,7 +26,7 @@ public class Facade {
 	static public boolean Login(UserInfoItem userinfoItem) {
 		Login login = new Login();
 		login.setModal(true);
-		login.show();
+		login.setVisible(true);
 		userinfoItem.strUserName = login.GetUserName();
 		userinfoItem.UserType = login.GetUserType();
 		return login.isExit();
@@ -35,8 +35,8 @@ public class Facade {
 /////////////////////////
 //functions for CourseMenu
 	/*
-	 * When click the add button of the CourseMenu , call this function this
-	 * function will new an assignment fill the required infomation this function
+	 * When click the add button of the CourseMenu , call this function
+	 * will new an assignment fill the required infomation this function
 	 * will call InstructorAssignmentMenu or StudentAssignmentMenu according to the
 	 * type of the user it will not update the course menu. the coursemenu need to
 	 * refreshed outside the function
@@ -57,7 +57,7 @@ public class Facade {
 
 	/*
 	 * When click the view button of the CourseMenu , call this function and pass
-	 * the pointer of the Assignment and the person pointer to this function this
+	 * the pointer of the Assignment and the person pointer to this
 	 * function will new an assignment fill the required infomation this function
 	 * will call InstructorAssignmentMenu or StudentAssignmentMenu according to the
 	 * type of the user
@@ -88,10 +88,10 @@ public class Facade {
 		Solution theSolution;
 		SolutionIterator theSolutionIterator;
 		theSolutionIterator = theAssignment.GetSolutionIterator();
-		theSolution = (Solution) theSolutionIterator.next();
+		theSolution = theSolutionIterator.next();
 		while (theSolution != null) {
 			theSolution.setReported(true);
-			theSolution = (Solution) theSolutionIterator.next();
+			theSolution = theSolutionIterator.next();
 		}
 	}
 ////////////////////
@@ -104,7 +104,7 @@ public class Facade {
 //////////
 	void Remind() {
 		Reminder theReminder = new Reminder();
-		theReminder.showReminder(thePerson.GetCourseList());
+		theReminder.showReminder();
 	}
 
 	void CreateUser(UserInfoItem userinfoitem) {
@@ -123,7 +123,7 @@ public class Facade {
 	 */
 	void CreateCourseList() {
 		theCourseList = new ClassCourseList();
-		theCourseList.InitializeFromFile("CourseInfo.txt");
+		theCourseList.InitializeFromFile();
 	}
 
 	/*
@@ -150,7 +150,7 @@ public class Facade {
 				}
 			}
 		} catch (Exception ee) {
-			;
+			ee.printStackTrace();
 		}
 	}
 
@@ -167,7 +167,7 @@ public class Facade {
 	 */
 	private String GetCourseName(String aline) {
 		int Sep = aline.lastIndexOf(':');
-		return aline.substring(Sep + 1, aline.length());
+		return aline.substring(Sep + 1);
 	}
 
 	/*
@@ -185,7 +185,7 @@ public class Facade {
 	}
 
 	/*
-	 * call the thePerson.CreateCourseMenu according to the really object(student or
+	 * call the thePerson.CreateCourseMenu according to the real object(student or
 	 * instructor) and the nCourseLevel it will call different menu creater and show
 	 * the menu;
 	 */

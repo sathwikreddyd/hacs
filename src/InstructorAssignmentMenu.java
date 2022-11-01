@@ -3,7 +3,6 @@ package hacs;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import java.text.DateFormat;
 
 /**
@@ -18,10 +17,8 @@ import java.text.DateFormat;
 public class InstructorAssignmentMenu extends AssignmentMenu
 {
 ////  class AssignmentMenu
-  private boolean bSubmit=false;
-  private Solution theSolution;
   private Assignment theAssignment;
-  JComboBox CombSolutionList = new JComboBox();
+  JComboBox<Solution> CombSolutionList = new JComboBox<>();
 ////////////////////////
 
 
@@ -47,8 +44,7 @@ public class InstructorAssignmentMenu extends AssignmentMenu
       e.printStackTrace();
     }
   }
-  private void jbInit() throws Exception
-  {
+  private void jbInit() {
     jLabel1.setText("Assignment Name");
     jLabel1.setBounds(new Rectangle(25, 31, 118, 18));
     this.getContentPane().setLayout(null);
@@ -64,31 +60,13 @@ public class InstructorAssignmentMenu extends AssignmentMenu
     tbSuggestedSolution.setBounds(new Rectangle(197, 149, 339, 22));
     buttonGrade.setText("Grade");
     buttonGrade.setBounds(new Rectangle(458, 199, 79, 29));
-    buttonGrade.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        buttonGrade_actionPerformed(e);
-      }
-    });
+    buttonGrade.addActionListener(this::buttonGrade_actionPerformed);
     buttonReport.setText("Report");
     buttonReport.setBounds(new Rectangle(365, 249, 79, 29));
-    buttonReport.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        buttonReport_actionPerformed(e);
-      }
-    });
+    buttonReport.addActionListener(this::buttonReport_actionPerformed);
     buttonClose.setText("Close");
     buttonClose.setBounds(new Rectangle(86, 253, 79, 29));
-    buttonClose.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        buttonClose_actionPerformed(e);
-      }
-    });
+    buttonClose.addActionListener(this::buttonClose_actionPerformed);
     CombSolutionList.setBounds(new Rectangle(32, 204, 413, 22));
     this.getContentPane().add(jLabel1, null);
     this.getContentPane().add(tbAssignmentName, null);
@@ -104,14 +82,13 @@ public class InstructorAssignmentMenu extends AssignmentMenu
   public void ShowMenu(Assignment assignment, Person person)
   {
     theAssignment=assignment;
-    Solution theSolution;
     tbAssignmentName.setText(theAssignment.AssName );
 
     DateFormat theDateFormat=DateFormat.getDateInstance(DateFormat.SHORT );
     tbDueDate.setText(theDateFormat.format(theAssignment.DueDate));
     tbSuggestedSolution.setText(theAssignment.SuggestSolution.SolutionFileName );
     refreshSolutionList();
-    show();
+    this.setVisible(true);
   }
 
   void buttonClose_actionPerformed(ActionEvent e)
@@ -121,9 +98,11 @@ public class InstructorAssignmentMenu extends AssignmentMenu
     try
     {
       theAssignment.DueDate=tempDateFormat.parse(tbDueDate.getText() );
-    }catch (Exception ee){};
-    theAssignment.SuggestSolution.SolutionFileName =tbSuggestedSolution.getText() ;
-    hide();
+    }catch (Exception ee){
+      ee.printStackTrace();
+    }
+    theAssignment.SuggestSolution.SolutionFileName =tbSuggestedSolution.getText();
+    this.setVisible(false );
   }
 
   void buttonGrade_actionPerformed(ActionEvent e)
@@ -141,7 +120,7 @@ public class InstructorAssignmentMenu extends AssignmentMenu
     SolutionIterator iter=new SolutionIterator(theAssignment.theSolutionList );
     while(iter.hasNext() )
     {
-      Solution asolution=(Solution)iter.next();
+      Solution asolution= iter.next();
       asolution.setReported(true);
     }
     refreshSolutionList();
@@ -152,7 +131,7 @@ public class InstructorAssignmentMenu extends AssignmentMenu
     SolutionIterator SolIter=new SolutionIterator(theAssignment.theSolutionList );
     while(SolIter.hasNext() )
     {
-      theSolution=(Solution)SolIter.next();
+      Solution theSolution = SolIter.next();
       CombSolutionList.addItem(theSolution);
     }
   }

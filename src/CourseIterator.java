@@ -11,15 +11,11 @@ import java.util.Iterator;
  * @version 1.0
  */
 
-public class CourseIterator implements Iterator
+public class CourseIterator implements Iterator<Course>
 {
   ClassCourseList theCourseList;
   int CurrentCourseNumber=-1;
 
-
-  public CourseIterator()
-  {
-  }
 
   public CourseIterator(ClassCourseList courseList)
   {
@@ -28,15 +24,12 @@ public class CourseIterator implements Iterator
 
   public boolean hasNext()
   {
-    if (CurrentCourseNumber>=theCourseList.size()-1)
-      return false;
-    else
-      return true;
+    return CurrentCourseNumber < theCourseList.size() - 1;
   }
 
-  public Object next()
+  public Course next()
   {
-    if (hasNext()==true)
+    if (hasNext())
     {
       CurrentCourseNumber ++;
       return theCourseList.get(CurrentCourseNumber);
@@ -55,14 +48,14 @@ public class CourseIterator implements Iterator
   public Object next(String CourseName)
   {
     Course theCourse;
-    theCourse=(Course)next();
+    theCourse= next();
     while(theCourse!=null)
     {
       if(CourseName.compareTo(theCourse.toString())==0)
       {
         return theCourse;
       }
-      theCourse=(Course)next();
+      theCourse= next();
     }
     return null;
   }

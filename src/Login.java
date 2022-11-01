@@ -44,7 +44,7 @@ public class Login extends JDialog {
 		}
 	}
 
-	private void jbInit() throws Exception {
+	private void jbInit() {
 		this.getContentPane().setLayout(null);
 		jLabel1.setText("UserName");
 		jLabel1.setBounds(new Rectangle(26, 52, 80, 18));
@@ -52,18 +52,10 @@ public class Login extends JDialog {
 		jLabel2.setBounds(new Rectangle(23, 119, 80, 18));
 		loginButton.setText("Login");
 		loginButton.setBounds(new Rectangle(31, 212, 85, 28));
-		loginButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				loginButton_actionPerformed(e);
-			}
-		});
+		loginButton.addActionListener(this::loginButton_actionPerformed);
 		buttonExit.setText("Exit");
 		buttonExit.setBounds(new Rectangle(180, 211, 97, 28));
-		buttonExit.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonExit_actionPerformed(e);
-			}
-		});
+		buttonExit.addActionListener(this::buttonExit_actionPerformed);
 		UserNameText.setBounds(new Rectangle(119, 52, 144, 22));
 		PasswordText.setBounds(new Rectangle(118, 119, 147, 22));
 		StudentRadio.setSelected(true);
@@ -88,36 +80,41 @@ public class Login extends JDialog {
 		m_bExit = false;
 		System.out.println("login clicked");
 		try {
-			if (StudentRadio.isSelected() == true)//// student
+			if (StudentRadio.isSelected())//// student
 			{
 				UserType = USER_TYPE.Student; /// 0 for student
 				file = new BufferedReader(new FileReader("StuInfo.txt"));
 			} else// instructor
 			{
 				UserType = USER_TYPE.Instructor; // 1 for instructor
-				file = new BufferedReader(new FileReader("InsInfor.txt"));
+				file = new BufferedReader(new FileReader("InsInfo.txt"));
 			}
 			UserBox = UserNameText.getText();
 			String PasswordBox = new String(PasswordText.getPassword());
 			String LoginName = null;
-			String aline = null, UserName = null, Password = null;
-			while ((aline = file.readLine()) != null) {
+			String aline, UserName, Password;
+
+			aline = file.readLine();
+			while (aline != null) {
+				aline = file.readLine();
 				UserName = GetUserName(aline);
 				Password = GetPassword(aline);
-				if (UserName.compareTo(UserBox) == 0 && Password.compareTo(PasswordBox) == 0)
+				aline = file.readLine();
+				if (UserName.compareTo(UserBox) == 0 && Password.compareTo(PasswordBox) == 0) {
 					LoginName = UserName;
+				}
 			}
 			if (LoginName != null) {
-				this.hide();
+				this.setVisible(false);
 			}
 		} catch (Exception ee) {
-			;
+			ee.printStackTrace();
 		}
 
 	}
 
 	/*
-	 * get the user name from aline UserName:Password
+	 * get the username from aline UserName:Password
 	 */
 	private String GetUserName(String aline) {
 		int Sep = aline.lastIndexOf(':');
@@ -129,7 +126,7 @@ public class Login extends JDialog {
 	 */
 	private String GetPassword(String aline) {
 		int Sep = aline.lastIndexOf(':');
-		return aline.substring(Sep + 1, aline.length());
+		return aline.substring(Sep + 1);
 	}
 
 	/* after login get the UserName of the login interface */
@@ -148,6 +145,6 @@ public class Login extends JDialog {
 
 	void buttonExit_actionPerformed(ActionEvent e) {
 		m_bExit = true;
-		hide();
+		this.setVisible(false);
 	}
 }

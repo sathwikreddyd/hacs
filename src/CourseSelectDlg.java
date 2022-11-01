@@ -17,7 +17,7 @@ public class CourseSelectDlg extends JDialog {
 	Course SelectedCourse;
 	int nCourseLevel = 0;
 	boolean m_bLogout = false;
-	JComboBox CourseNameCom = new JComboBox();
+	JComboBox<Course> CourseNameCom = new JComboBox<>();
 	JRadioButton HighLevelRadio = new JRadioButton();
 	JRadioButton LowLevelRadio = new JRadioButton();
 	JLabel jLabel1 = new JLabel();
@@ -35,7 +35,7 @@ public class CourseSelectDlg extends JDialog {
 		}
 	}
 
-	private void jbInit() throws Exception {
+	private void jbInit() {
 		this.getContentPane().setLayout(null);
 		CourseNameCom.setBounds(new Rectangle(155, 41, 203, 22));
 		HighLevelRadio.setText("HighLevel");
@@ -48,18 +48,10 @@ public class CourseSelectDlg extends JDialog {
 		jLabel1.setBounds(new Rectangle(39, 44, 85, 18));
 		OKButton.setText("OK");
 		OKButton.setBounds(new Rectangle(78, 139, 79, 29));
-		OKButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OKButton_actionPerformed(e);
-			}
-		});
+		OKButton.addActionListener(this::OKButton_actionPerformed);
 		buttonLogout.setText("Logout");
 		buttonLogout.setBounds(new Rectangle(224, 140, 73, 31));
-		buttonLogout.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonLogout_actionPerformed(e);
-			}
-		});
+		buttonLogout.addActionListener(this::buttonLogout_actionPerformed);
 		this.getContentPane().add(CourseNameCom, null);
 		this.getContentPane().add(jLabel1, null);
 		this.getContentPane().add(HighLevelRadio, null);
@@ -68,6 +60,7 @@ public class CourseSelectDlg extends JDialog {
 		this.getContentPane().add(buttonLogout, null);
 		buttonGroup1.add(HighLevelRadio);
 		buttonGroup1.add(LowLevelRadio);
+		this.setTitle("Course Dialog Box"); //temp
 	}
 
 	/*
@@ -80,11 +73,13 @@ public class CourseSelectDlg extends JDialog {
 		theCourseList = courseList;
 		CourseIterator theIterator = new CourseIterator(theCourseList);
 		Course theCourse;
-		while ((theCourse = (Course) theIterator.next()) != null) /// end of the list
+
+		while (theIterator.hasNext()) // end of the list
 		{
+			theCourse = theIterator.next();
 			CourseNameCom.addItem(theCourse);
 		}
-		show();
+		this.setVisible(true);
 		return SelectedCourse;
 	}
 
@@ -94,7 +89,7 @@ public class CourseSelectDlg extends JDialog {
 			nCourseLevel = 0; // highlevel course: 0
 		else
 			nCourseLevel = 1; // lowlevel course: 1
-		hide();
+		this.setVisible(false);
 	}
 
 	public boolean isLogout() {
@@ -103,6 +98,6 @@ public class CourseSelectDlg extends JDialog {
 
 	void buttonLogout_actionPerformed(ActionEvent e) {
 		m_bLogout = true;
-		hide();
+		this.setVisible(false);
 	}
 }
